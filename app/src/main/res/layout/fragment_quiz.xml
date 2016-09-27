@@ -22,7 +22,7 @@
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/imageView"
+        android:id="@+id/flagImageView"
         android:src="@drawable/flag"
         android:layout_gravity="center"
         android:adjustViewBounds="true"
