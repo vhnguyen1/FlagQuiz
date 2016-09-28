@@ -6,13 +6,10 @@ import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Toast;
 
 import java.util.Set;
@@ -48,12 +45,10 @@ public class QuizActivity extends AppCompatActivity {
         // set default values in the app's SharedPreferences
         PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
 
-        // register listener for SharedPreferences
-        PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
-
         // register listener for SharedPreferences changes
         PreferenceManager.getDefaultSharedPreferences(this).
-                registerOnSharedPreferenceChangeListener(preferencesChanged);
+                registerOnSharedPreferenceChangeListener(
+                        preferenceChangeListener);
 
         // determine screen size
         int screenSize = getResources().getConfiguration().screenLayout &
@@ -69,6 +64,7 @@ public class QuizActivity extends AppCompatActivity {
             setRequestedOrientation(
                     ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
+        /*
         FloatingActionButton fab = (FloatingActionButton) findViewById(fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -77,6 +73,7 @@ public class QuizActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
+        */
     }
 
     @Override
@@ -85,7 +82,7 @@ public class QuizActivity extends AppCompatActivity {
 
         if (preferencesChanged) {
             // now that the default preferences have been set,
-            // intialize QuizActivityFragment and start the quiz
+            // initialize QuizActivityFragment and start the quiz
             QuizActivityFragment quizFragment = (QuizActivityFragment)
                     getSupportFragmentManager().findFragmentById(
                             R.id.quizFragment);
@@ -100,15 +97,16 @@ public class QuizActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // get the device's current orienttion
+        // get the device's current orientation
         int orientation = getResources().getConfiguration().orientation;
 
         //display the app's menu only in portrait orientation
         if (orientation == Configuration.ORIENTATION_PORTRAIT) {
             // inflate the menu
-            getMenuInflater().inflate(R.menu.menu_main, menu);
+            getMenuInflater().inflate(R.menu.menu_quiz, menu);
             return true;
-        } else
+        }
+        else
             return false;
 
         /*
@@ -145,7 +143,7 @@ public class QuizActivity extends AppCompatActivity {
      * If either the guess options or regions are changed, the quiz will restart with the
      * new settings.
      */
-    private OnSharedPreferenceChangeListener preferenceChangeListener =
+    private SharedPreferences.OnSharedPreferenceChangeListener preferenceChangeListener =
             new SharedPreferences.OnSharedPreferenceChangeListener() {
                 // called when the user changes the app's preferences
                 @Override
