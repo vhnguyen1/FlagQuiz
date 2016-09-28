@@ -111,7 +111,7 @@ public class QuizActivityFragment extends Fragment {
         // configure listeners for the guess Buttons
         for (LinearLayout row : guessLinearLayout) {
             for (int column = 0; column < row.getChildCount(); column++) {
-                Button button = (Button) row.getChildCount(column);
+                Button button = (Button) row.getChildAt(column);
                 button.setOnClickListener(guessButtonListener);
             }
         }
@@ -121,6 +121,13 @@ public class QuizActivityFragment extends Fragment {
                 getString(R.string.question, 1, FLAGS_IN_QUIZ);
         return view;
         //return inflater.inflate(R.layout.fragment_quiz, container, false);
+    }
+
+    public String getCountryName(String country) {
+        return "";
+    }
+
+    public void disableButtons() {
     }
 
     /**
@@ -297,6 +304,7 @@ public class QuizActivityFragment extends Fragment {
                                             getString(R.string.results,
                                                     totalGuesses,
                                                     (1000 / (double) totalGuesses)));
+
                                     // "Reset Quiz" Button
                                     builder.setPositiveButton(R.string.reset_quiz,
                                             new DialogInterface.OnClickListener() {
