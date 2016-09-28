@@ -1,4 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Flag Quiz</string>
+    <string name="app_name">Cờ Đố</string>
+    <string name="action_settings">Cài đặt</string>
+    <string name="default_region">Bắc Mỹ</string>
+    <string name="default_region_message">Một khu vực phải được chọn. Thiết lập Bắc Mỹ là khu vực mặc định.</string>
+    <string name="guess_country">Đoán nước</string>
+    <string name="image_description">Hình ảnh của lá cờ hiện trong bài kiểm tra</string>
+    <string name="incorrect_answer">Sai!</string>
+    <string name="number_of_choices">Số Lựa chọn</string>
+    <string name="number_of_choices_description">Hiển thị 2, 4, 6 hoặc 8 nút đoán</string>
+    <string name="question">Câu hỏi %1$d của %2$d</string>
+    <string name="reset_quiz">Đặt lại Đố</string>
+    <string name="restarting_quiz">Đố sẽ khởi động lại với các thiết lập mới của bạn</string>
+    <string name="title_activity_settings">Cài đặt</string>
+    <string name="world_regions">Vùng</string>
+    <string name="world_regions_description">Khu vực bao gồm trong các bài kiểm tra</string>
+    <string name="results">%1$d đoán, %2$.02f%% đúng</string>
 </resources>

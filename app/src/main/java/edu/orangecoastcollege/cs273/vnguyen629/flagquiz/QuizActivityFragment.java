@@ -26,6 +26,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 import java.util.logging.Handler;
+import java.util.logging.LogRecord;
 
 /**
  * QuizActivityFragment contains the Flag Quiz logic (correct/incorrect/statistics).
@@ -75,7 +76,22 @@ public class QuizActivityFragment extends Fragment {
         fileNameList = new ArrayList<>();
         quizCountriesList = new ArrayList<>();
         random = new SecureRandom();
-        handler = new Handler();
+        handler = new Handler() {
+            @Override
+            public void publish(LogRecord record) {
+
+            }
+
+            @Override
+            public void flush() {
+
+            }
+
+            @Override
+            public void close() throws SecurityException {
+
+            }
+        };
 
         // get reference to GUI components
         questionNumberTextView =
@@ -289,8 +305,7 @@ public class QuizActivityFragment extends Fragment {
                                                    int id) {
                                                     resetQuiz();
                                                 }
-                                            }
-                                    );
+                                            });
 
                                     return builder.create(); // return the AlertDialog
                                 }

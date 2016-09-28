@@ -16,6 +16,7 @@ import java.util.Set;
 
 /**
  *
+ * @author Vincent Nguyen
  */
 public class QuizActivity extends AppCompatActivity {
     // keys for reading data from SharedPreferences
