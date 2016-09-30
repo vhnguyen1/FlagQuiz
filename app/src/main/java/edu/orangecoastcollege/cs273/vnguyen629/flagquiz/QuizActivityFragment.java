@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.content.res.AssetManager;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -25,8 +26,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
-import java.util.logging.Handler;
-import java.util.logging.LogRecord;
 
 /**
  * QuizActivityFragment contains the Flag Quiz logic (correct/incorrect/statistics).
@@ -76,22 +75,7 @@ public class QuizActivityFragment extends Fragment {
         fileNameList = new ArrayList<>();
         quizCountriesList = new ArrayList<>();
         random = new SecureRandom();
-        handler = new Handler() {
-            @Override
-            public void publish(LogRecord record) {
-
-            }
-
-            @Override
-            public void flush() {
-
-            }
-
-            @Override
-            public void close() throws SecurityException {
-
-            }
-        };
+        handler = new Handler();
 
         // get reference to GUI components
         questionNumberTextView =
@@ -118,22 +102,37 @@ public class QuizActivityFragment extends Fragment {
 
         // set questionNumberTextView's text
         questionNumberTextView.setText(
-                getString(R.string.question, 1, FLAGS_IN_QUIZ);
+                getString(R.string.question, 1, FLAGS_IN_QUIZ));
         return view;
         //return inflater.inflate(R.layout.fragment_quiz, container, false);
     }
 
-    public String getCountryName(String country) {
-        return "";
+    /**
+     * Parses the country flag file name (e.g. Oceania-American_Samoa.png) and returns
+     * the country name (e.g. American Samoa), replacing underscores with spaces.
+     * @param name The flag file name
+     * @return The country name, parsed from the file name
+     */
+    public String getCountryName(String name) {
+        String countryName = name.substring(name.indexOf('-') + 1);
+        return countryName.replace('_', ' ');
     }
 
+    /**
+     * Utility method that disables all answer Buttons
+     */
     public void disableButtons() {
+        for (int row = 0; row < guessRows; row++) {
+            LinearLayout guessRow = guessLinearLayout[row];
+            for (int i = 0; i < guessRow.getChildCount(); i++)
+                guessRow.getChildAt(i).setEnabled(false);
+        }
     }
 
     /**
      * updateGuessRows is called from QuizActivity when the app is launched and each time
      * the user changes the number of guess buttons to display with each flag.
-     * @param SharedPreferences The shared preferences from preferences.xml
+     * @param sharedPreferences The shared preferences from preferences.xml
      */
     public void updateGuessRows(SharedPreferences sharedPreferences) {
         // get the number of guess buttons that should be displayed
@@ -318,7 +317,28 @@ public class QuizActivityFragment extends Fragment {
                                     return builder.create(); // return the AlertDialog
                                 }
                             };
+
+                    // use FragmentManager to display the DialogFragment
+                    quizResults.setCancelable(false);
+                    quizResults.show(getFragmentManager(), "quiz results")
                 }
+                else { // answer is correct but quiz is not over
+                    // load the next flag after a 2 second delay
+                    handler.postDelayed(
+                            new Runnable() {
+                                @Override
+                                public void run() {
+                                    loadNextFlag();
+                                }
+                            }, 2000); // 2000 millisecons for 2 second delay
+                }
+            }
+            else { // answer was incorrect
+                // display "Incorrect!" in red
+                answerTextView.setText(R.string.incorrect_answer);
+                answerTextView.setTextColor(getResources().getColor(
+                        R.color.incorrect_answer, getContext().getTheme()));
+                guessButton.setEnabled(false); // disable incorrect answer
             }
         }
     };
